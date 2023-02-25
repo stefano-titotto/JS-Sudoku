@@ -1,0 +1,18 @@
+/* Dropdown Button */
+.numero {
+    background-color: #ddd;
+    color: black;
+    font-size: 30px;
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    appearance: none;
+    text-align: center;
+  }
+
+  .tabella{
+    border-collapse: collapse;
+    border: grey dotted 1px;
+  }
+  

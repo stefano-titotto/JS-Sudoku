@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="stile.css">
+      </head>
+
+
+<body>
+<header>
+<h2>prova tabella</h2>
+</header>
+<div>
+<button onclick="getOption()"> Leggi </button>
+<button onclick="cancella()"> Cancella </button>
+</div>
+<br>
+<table id="tabella" >
+  <tbody id="tableBody" >
+  </tbody>
+</table>
+
+<footer>
+    <hr>
+    <div id='console'>Console> </div>
+</footer>
+<script>
+  function getOption(){
+    /*
+      legge tutti i valori selezionati dai bottoni e li inserisce nella matrice principale
+    */
+    let x = document.getElementsByClassName("numero");
+    for (sl of x){
+      document.getElementById("console").innerText += "Console>\ "+sl.selectedOptions[0].value+"\ "+sl.r+"\ "+sl.c+"\ "+sl.id+"\n"
+    }
+
+  }
+
+  function cancella(){
+    /*
+    Cancella i valori nella tabella
+    */
+    let x = document.getElementsByClassName("numero");
+    document.getElementById("console").innerText += "Trovati " + x.length + " elementi\n"
+    for (sl of x){
+      document.getElementById("console").innerText += sl.id + "reset\n"
+      sl.options[0].selected = true;
+    }
+  }
+
+// Crea la tabella
+let TableBody = document.getElementById("tableBody");
+for (let riga=0; riga<9; riga++){
+  var row = TableBody.insertRow();
+  for (let col=0; col<9; col++){
+    let cell = row.insertCell();
+    const num = document.createElement("select");
+    with (num){
+      id = "N"+riga+col;
+      className = "numero";
+    }
+    num.r = riga;
+    num.c = col;
+
+    const opt = document.createElement("option");
+    with (opt) {
+      value = "";
+      text = " ";
+    }
+    num.appendChild(opt)
+
+    for (let n=1; n<10; n++){
+      const opt2 = document.createElement("option");
+      with (opt2) {
+        value = n.toString();
+        text = n.toString();
+      }
+      num.appendChild(opt2)
+    }
+    cell.appendChild(num)
+  }
+}
+</script>
+</body>
+</html>
