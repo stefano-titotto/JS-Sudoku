@@ -109,9 +109,8 @@ for (let r = 0; r< s.length ; r++) {
 function cancella(){
 	//Cancella i valori nella tabella
     let x = document.getElementsByClassName("numero");
-    document.getElementById("console").innerText += "Trovati " + x.length + " elementi\n"
+    pconsole("Reset eseguito")
     for (sl of x){
-      document.getElementById("console").innerText += sl.id + "reset\n"
       sl.options[0].selected = true;
     }
 }
@@ -119,7 +118,7 @@ function cancella(){
 function caricaTest(){
 	//Carica il test da s0 = [string, ...]
     let x = document.getElementsByClassName("numero");
-    document.getElementById("console").innerText += "Trovati " + x.length + " elementi\n"
+    pconsole("Sudoku test caricato")
     for (sl of x){
 	  let i = parseInt(s0[sl.r][sl.c])
       sl.options[i].selected = true;

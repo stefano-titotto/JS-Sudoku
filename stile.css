@@ -7,6 +7,9 @@
     cursor: pointer;
     width: 40px;
     height: 40px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
     appearance: none;
     text-align: center;
   }
