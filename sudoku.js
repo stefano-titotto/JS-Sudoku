@@ -185,10 +185,6 @@ function importa_matrice(doku_text){
 			sudoku.push([])
 		}
 	 	let n = parseInt(doku_text[sl.r][sl.c]);
-		pconsole(doku_text[sl.r][sl.c])
-		if (sl.c == 8){
-			pconsole("<br>")
-		}
 		if (n) {
 	  		sudoku[sl.r].push([n]);
 		}
@@ -211,11 +207,6 @@ function leggiTabellone(){
 		// leggi le selezioni del tabellone
 		let ch = sl.selectedOptions[0].value
 
-		pconsole(ch)
-		if (sl.c == 8){
-			pconsole("<br>")
-		}
-
 		if (ch) {
 	  		sudoku[sl.r].push([parseInt(ch)]);
 		}
@@ -228,7 +219,7 @@ function leggiTabellone(){
 
 function pconsole(stringa){
 	cons = document.getElementById("console")
-	cons.innerHTML += stringa 
+	cons.innerHTML = stringa 
 	}
 
 const clone = (items) => items.map(item => Array.isArray(item) ? clone(item) : item);
@@ -405,6 +396,7 @@ function sudoku(){
 	a = risolvi(doku);
 	if (a){
 	caricaMatrice(a);
+	pconsole("Trovata una soluzione")
 	}
 	else{pconsole("Soluzione non trovata")}
 }
