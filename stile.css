@@ -5,8 +5,8 @@
     font-size: 30px;
     border: none;
     cursor: pointer;
-    width: 40px;
-    height: 40px;
+    width: 2em;
+    height: 2em;
     -webkit-appearance: none;
     -moz-appearance: none;
     -ms-appearance: none;
@@ -17,5 +17,24 @@
   .tabella{
     border-collapse: collapse;
     border: grey dotted 1px;
+
   }
   
+  .semaforo{
+    position: relative;
+    width: 1.5em;
+    height: 1.5em;
+    background-color: red;
+    border: thin black;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .semaforo-verde{
+    background-color: green;
+  }
+
+  .bottone{
+    border-radius: 0%;
+
+  }

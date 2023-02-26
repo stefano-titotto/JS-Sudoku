@@ -9,6 +9,8 @@ let s0 = [
 '400630009',
 '109002000'];
 
+var soluzioni = [];
+
 function creaTabellone(){
 	// Crea la tabella
 	let TableBody = document.getElementById("tableBody");
@@ -113,6 +115,7 @@ function cancella(){
     for (sl of x){
       sl.options[0].selected = true;
     }
+	document.getElementsByClassName("semaforo")[0].classList.remove("semaforo-verde");
 }
 
 function caricaTest(){
@@ -123,6 +126,7 @@ function caricaTest(){
 	  let i = parseInt(s0[sl.r][sl.c])
       sl.options[i].selected = true;
     }
+	document.getElementsByClassName("semaforo")[0].classList.remove("semaforo-verde");
 }
 
 function caricaMatrice(matrice){
@@ -218,7 +222,7 @@ function leggiTabellone(){
 
 function pconsole(stringa){
 	cons = document.getElementById("console")
-	cons.innerHTML = stringa 
+	cons.innerHTML += stringa+"<br>"
 	}
 
 const clone = (items) => items.map(item => Array.isArray(item) ? clone(item) : item);
@@ -364,11 +368,13 @@ function risolvi(matrice){
 	let p = profondita(matrice2);
 	// se tutte le 81 celle hanno 1 soluzione il sudoku è risolto
 	if (p==81) {
+		soluzioni.push(matrice2);
 		return matrice2;
 	}
 
 	// trova la prima cella su cui fare delle ipotesi
-	let [r, c] = trova(matrice2)
+	let [r, c] = trova(matrice2);
+	let soluzione = []
 	for (ipotesi of matrice2[r][c]){
 		// crea matrice3 con soluzione ipotetica
 		let matrice3 = clone(matrice2);
@@ -377,11 +383,8 @@ function risolvi(matrice){
 		// chiamata ricorsiva a risolvi
 		soluzione = risolvi(matrice3);
 		// se trova la soluzione ritornala, altrimenti passa all'ipotesi successiva
-		if (soluzione){
-			return soluzione
 		}
-	}
-
+	return soluzione;
 }
 
 function sudoku(){
@@ -390,14 +393,25 @@ function sudoku(){
 
 	// risolvi
 	// carica matrice
-
 	doku = leggiTabellone();
-	a = risolvi(doku);
-	if (a){
-	caricaMatrice(a);
-	pconsole("Trovata una soluzione")
+
+	// azzera array soluzioni 
+	soluzioni.length = 0;
+
+	risolvi(doku);
+
+	if (!soluzioni){
+		pconsole("Soluzione non trovata");
+		return;
 	}
-	else{pconsole("Soluzione non trovata")}
+	if (soluzioni>1){
+		pconsole("Trovate soluzioni multiple");
+		return;
+	}
+
+	document.getElementsByClassName("semaforo")[0].classList.add("semaforo-verde");
+	caricaMatrice(soluzioni[0]);
+	pconsole("Trovata la soluzione");
 }
 
 creaTabellone();
