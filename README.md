@@ -9,3 +9,13 @@ con l'iPad senza doversi scaricare applicazioni.
 Trova la prima soluzione e la visualizza.
 
 Non controlla se ci sono più soluzioni.
+
+## Seconda versione
+
+Verifica se il Sudoku ha soluzioni multiple.
+
+In questo caso, non viene proposta nessuna soluzione ed il semaforo rimane rosso.
+
+## Terza (todo)
+
+Memorizza i sudoku da risolvere
