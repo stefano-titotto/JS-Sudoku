@@ -2,7 +2,7 @@
 .numero {
     background-color: #ddd;
     color: black;
-    font-size: 30px;
+    font-size: 2em;
     border: none;
     cursor: pointer;
     width: 2em;
@@ -36,5 +36,5 @@
 
   .bottone{
     border-radius: 0%;
-
+    font-size: 30px;
   }

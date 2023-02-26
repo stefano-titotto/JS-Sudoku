@@ -10,9 +10,10 @@ let s0 = [
 '109002000'];
 
 var soluzioni = [];
+var doku = [];
 
 function creaTabellone(){
-	// Crea la tabella
+	// Crea la tabella nel file html
 	let TableBody = document.getElementById("tableBody");
 	// righe
 	for (let riga=0; riga<9; riga++){
@@ -64,56 +65,34 @@ function creaTabellone(){
 	}
 }
 
-function stampa_input(s){
-/* Scrivi nella tabella del file HTML 
-	s: vettore di stringhe di numeri dove 0 significa cella vuota
-*/
-
-let tabella = document.getElementById('tabella');
-let TableBody = document.getElementById("tableBody");
-
-// crea le righe della tabella
-for (let r = 0; r< s.length ; r++) {
-	let el = s[r];
-	var row = TableBody.insertRow();
-
-	// crea le celle della riga	
-	for (let c=0; c<el.length; c++){
-		ch = el[c];
-    	var cell = row.insertCell();   
-
-		// scrivi il valore nella cella se diverso da 0
-		if (ch!='0'){
-			cell.innerHTML = ch;
-			}
-
-   	    cell.width = '25px';
-        cell.height = '25px';
-	    cell.align = 'center'
-	    cell.borderSpacing = '0px';
-		
-		// disegna i bordi dei quadranti
-		if (!(r%3)){
-			cell.style.borderTop = "thin solid black" ;
-  			}
-		if (!(c%3)) {
-			cell.style.borderLeft = "thin solid black";
-			}
-		if (r==8){
-			cell.style.borderBottom ="thin solid black"
-			}
-		if (c==8){
-			cell.style.borderRight = "thin solid black"}
-	}
-}
-}
-
 function cancella(){
-	//Cancella i valori nella tabella
+	// Cancella i valori nella tabella e ripristina l'interfaccia
     let x = document.getElementsByClassName("numero");
     pconsole("Reset eseguito")
     for (sl of x){
-      sl.options[0].selected = true;
+		// cancella tutte le opzioni
+		while (sl.options.length){
+			sl.removeChild(sl.options[0]);
+		}
+		// ricostruisci tutte le opzioni
+		// crea opzione nulla (di default)
+	    const opt = document.createElement("option");
+	    with (opt) {
+	      value = "";
+	      text = " ";
+	    }
+	    sl.appendChild(opt)
+		// crea opzioni dei numeri
+	    for (let n=1; n<10; n++){
+	      const opt2 = document.createElement("option");
+	      with (opt2) {
+	        value = n.toString();
+	        text = n.toString();
+	      }
+	      sl.appendChild(opt2)
+	    }
+		// seleziona casella vuota
+      	sl.options[0].selected = true;
     }
 	document.getElementsByClassName("semaforo")[0].classList.remove("semaforo-verde");
 }
@@ -122,87 +101,93 @@ function caricaTest(){
 	//Carica il test da s0 = [string, ...]
     let x = document.getElementsByClassName("numero");
     pconsole("Sudoku test caricato")
+	// per ogni casella numero (select)
     for (sl of x){
-	  let i = parseInt(s0[sl.r][sl.c])
-      sl.options[i].selected = true;
+		// leggi il  da matrice s0
+	  	let dato = s0[sl.r][sl.c];
+	  	if (dato == "0"){
+			continue;
+	  	}
+	  	// elimina tutte le opzioni che non corrispondono al dato
+	  	fissaCella(sl,dato);
     }
 	document.getElementsByClassName("semaforo")[0].classList.remove("semaforo-verde");
 }
 
-function caricaMatrice(matrice){
-	//Carica la matrice = [[[1,2], [], ...], ... ] di celle nel tabellone
-    let x = document.getElementsByClassName("numero");
-    document.getElementById("console").innerText += "Trovati " + x.length + " elementi\n"
-    for (sl of x){
-      //document.getElementById("console").innerText += sl.id + "reset\n"
-	  // cerca in s0 il valore relativo a riga e colonna di "sl"
-	  let cella = matrice[sl.r][sl.c]
-	  let i = 0
-	  // se la cella è univoca trasforma el in numero per richiamare l'indice corretto della dropdown
-	  if (cella.length==1){
-		i = cella[0]
-	  }
-      sl.options[i].selected = true;
-    }
-}
-
-
-
-function stampa_tabella(s){
-// Scrivi nella tabella del file HTML 
-//	s: array bidimensionale di celle contenenti caratteri da '1' a '9'
-
-let tabella = document.getElementById('tabella');
-let TableBody = document.getElementById("tableBody");
-
-// crea le righe della tabella utilizzando i contatori per riconoscere i multipli di 3
-for (let r = 0; r< s.length ; r++) {
-	let el = s[r];
-	var row = TableBody.insertRow();
-
-	// crea le celle della riga	
-	for (let c=0; c<el.length; c++){
-		ch = el[c];
-    	var cell = row.insertCell();   
-
-		// scrivi il valore nella cella se diverso da 0
-		if (ch.length==1){
-			cell.innerHTML = ch[0];
-			}
-
-   	cell.width = '25px';
-      cell.height = '25px';
-		cell.align = 'center'
-		cell.borderSpacing = '0px';
-		
+function ripristina(){
+	// ripristina il sudoku definito in doku
+    if (!doku.length){
+		pconsole("Sudoku precedente non presente - selezionare CANCELLA")
+		return;
 	}
-}
+	// ripristina il tabellone e tutte le celle
+	cancella();
+    let x = document.getElementsByClassName("numero");
+	// per ogni casella numero (select)
+    for (sl of x){
+		// leggi il  da matrice s0
+	  	let dato = doku[sl.r][sl.c];
+	  	if (!dato.length){
+			continue;
+	  	}
+	  	// elimina tutte le opzioni che non corrispondono al dato
+	  	fissaCella(sl,dato[0].toString());
+    }
+	document.getElementsByClassName("semaforo")[0].classList.remove("semaforo-verde");
 }
 
-function importa_matrice(doku_text){
-	// Importa la matrice da un array di stringhe
-	let sudoku = [];
-	let x = document.getElementsByClassName("numero");
-    for (sl of x){
-		if (sl.r==sudoku.length){
-			sudoku.push([])
-		}
-	 	let n = parseInt(doku_text[sl.r][sl.c]);
-		if (n) {
-	  		sudoku[sl.r].push([n]);
+function fissaCella(sl,dato) {
+	// Fissa la cella su un valore fisso "dato"
+	while (sl.options.length > 1) {
+		if (sl.options[0].value != dato) {
+			sl.removeChild(sl.options[0]);
 		}
 		else {
-			sudoku[sl.r].push([]);
-		}	
+			sl.removeChild(sl.options[1]);
+		}
 	}
-	return sudoku
+	sl.options[0].selected = true;
+}
+
+function caricaSoluzione(doku, soluzione){
+	/* Carica la matrice = [[[1,2], [], ...], ... ] di celle nel tabellone
+	 * Gli elementi relativi al dato in "doku" saranno visualizzati e non potranno essere modificati
+	 * Gli elementi relativi alla soluzione avranno opzione vuota (default) e opzione soluzione
+	 */
+    let x = document.getElementsByClassName("numero");
+    for (sl of x){
+      	// se la cella fa parte del sudoku posso saltare (era già univoca)
+		if (doku[sl.r][sl.c].length){
+			continue;
+		}
+
+		// 
+	  	// cerca in s0 il valore relativo a riga e colonna di "sl"
+	  	let cella = soluzione[sl.r][sl.c] // elemento matrice soluzione
+	  	// se la cella è univoca trasforma cella in numero per richiamare l'indice corretto della dropdown
+	  	if (cella.length>1){
+		pconsole("Errore interno");
+		return;
+		}
+		sol = cella[0].toString();
+		fissaCella(sl,sol);
+		//crea e seleziona una soluzione vuota
+		const opt = document.createElement("option");
+		with (opt) {
+			value = "";
+			text = " ";
+		}
+		sl.appendChild(opt)
+      	sl.options[1].selected = true;
+	}
 }
 
 function leggiTabellone(){
-	// Importa la matrice da un array di stringhe
+	// Importa la matrice leggendo il tabellone e fissa le caselle definite
 	let sudoku = [];
 	let x = document.getElementsByClassName("numero");
     for (sl of x){
+		// aggiungi una nuova riga alla matrice
 		if (sl.r==sudoku.length){
 			sudoku.push([])
 		}
@@ -212,6 +197,7 @@ function leggiTabellone(){
 
 		if (ch) {
 	  		sudoku[sl.r].push([parseInt(ch)]);
+			fissaCella(sl,ch);
 		}
 		else {
 			sudoku[sl.r].push([]);
@@ -410,7 +396,7 @@ function sudoku(){
 	}
 
 	document.getElementsByClassName("semaforo")[0].classList.add("semaforo-verde");
-	caricaMatrice(soluzioni[0]);
+	caricaSoluzione(doku, soluzioni[0]);
 	pconsole("Trovata la soluzione");
 }
 
