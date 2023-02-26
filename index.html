@@ -7,11 +7,14 @@
 <body>
 
 <h1>SuDoKu</h1>
+<p>Inserisci il sudoku cliccando nelle caselle. 
+  Seleziona "Risolvi" per calcolare la soluzione. 
+  Clicca nelle caselle per vedere i valori.</p>
 <div>
   <br>
-  <button class="bottone" onclick="caricaTest()"> Test </button>
-  <button class="bottone" onclick="sudoku()"> Risolvi </button>
-  <button class="bottone" onclick="ripristina()"> Ripristina </button>
+  <button class="bottone" onclick="caricaTest()" title="Carica un sudoku di prova."> Test </button>
+  <button class="bottone" onclick="sudoku()" title="Risolvi il sudoku."> Risolvi </button>
+  <button class="bottone" onclick="ripristina()" title="Ripristina il sudoku prima della soluzione."> Ripristina </button>
   <button class="bottone" onclick="cancella()"> Cancella </button>
   <div class="semaforo"></div>
   </div>

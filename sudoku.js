@@ -127,11 +127,10 @@ function ripristina(){
     for (sl of x){
 		// leggi il  da matrice s0
 	  	let dato = doku[sl.r][sl.c];
-	  	if (!dato.length){
-			continue;
-	  	}
-	  	// elimina tutte le opzioni che non corrispondono al dato
-	  	fissaCella(sl,dato[0].toString());
+	  	if (dato.length>0){
+			// seleziona l'opzione corrispondente a "dato"
+			sl.options[dato[0]].selected = true;
+		}
     }
 	document.getElementsByClassName("semaforo")[0].classList.remove("semaforo-verde");
 }
