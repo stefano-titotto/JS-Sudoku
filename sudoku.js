@@ -207,7 +207,7 @@ function leggiTabellone(){
 
 function pconsole(stringa){
 	cons = document.getElementById("console");
-	cons.innerHTML = stringa + "<br>" + cons.innerHTML;
+	cons.innerHTML = stringa + "<br>" ;
 	}
 
 const clone = (items) => items.map(item => Array.isArray(item) ? clone(item) : item);
@@ -383,10 +383,11 @@ function sudoku(){
 	// azzera array soluzioni 
 	soluzioni.length = 0;
 
-	risolvi(doku);
+	test = risolvi(doku);
 
-	if (!soluzioni){
+	if (!soluzioni.length){
 		pconsole("Soluzione non trovata");
+		ripristina();
 		return;
 	}
 	if (soluzioni.length>1){
