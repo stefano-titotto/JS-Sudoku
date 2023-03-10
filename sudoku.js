@@ -387,7 +387,6 @@ function sudoku(){
 
 	if (!soluzioni.length){
 		pconsole("Soluzione non trovata");
-		ripristina();
 		return;
 	}
 	if (soluzioni.length>1){
