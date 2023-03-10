@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Sudoku Solver</title>
+  <link rel="icon" type="image/x-icon" href="SmileHat.png">
     <link rel="stylesheet" href="stile.css">
 </head>
 <body>
@@ -16,16 +17,16 @@
   <button class="bottone" onclick="sudoku()" title="Risolvi il sudoku."> Risolvi </button>
   <button class="bottone" onclick="ripristina()" title="Ripristina il sudoku prima della soluzione."> Ripristina </button>
   <button class="bottone" onclick="cancella()"> Cancella </button>
-  <div class="semaforo"></div>
+  &nbsp;
+  <label class="semaforo"></label>
+  &nbsp;
+  <label id='console' class="bottone"></label> 
   </div>
 <br>
 <table id="tabella" class="tabella">
   <tbody id="tableBody" >
   </tbody>
 </table>
----<br>
-<div id='console'></div>
-<br>
 <script src='./sudoku.js'></script>
 </body>
 
