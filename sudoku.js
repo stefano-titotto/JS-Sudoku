@@ -1,3 +1,15 @@
+/*
+ * JS-Sudok
+ * 		doku è la matrice che definisce il problema
+ * 
+ * Funzioni
+ * - creaTabellone()
+ * - sudoku() - funzione principale da lanciare per risolvere il sudoku
+ * 		
+ * 		richiama la funzione risolvi(doku) per risolvere
+ * 		risolvi(*) è una funzione ricorsiva che memorizza le soluzioni in soluzioni[]
+ * 	
+ */
 let s0 = [
 '000700905',
 '700021008',
@@ -137,6 +149,7 @@ function ripristina(){
 
 function fissaCella(sl,dato) {
 	// Fissa la cella su un valore fisso "dato"
+	// rimuove tutte le opzioni che non sono "dato"
 	while (sl.options.length > 1) {
 		if (sl.options[0].value != dato) {
 			sl.removeChild(sl.options[0]);
@@ -155,20 +168,21 @@ function caricaSoluzione(doku, soluzione){
 	 */
     let x = document.getElementsByClassName("numero");
     for (sl of x){
+		// s1 è l'elemento della tabella nell'interfaccia
       	// se la cella fa parte del sudoku posso saltare (era già univoca)
 		if (doku[sl.r][sl.c].length){
 			continue;
 		}
 
 		// 
-	  	// cerca in s0 il valore relativo a riga e colonna di "sl"
+	  	
 	  	let cella = soluzione[sl.r][sl.c] // elemento matrice soluzione
 	  	// se la cella è univoca trasforma cella in numero per richiamare l'indice corretto della dropdown
 	  	if (cella.length>1){
-		pconsole("Errore interno");
+		pconsole("Errore interno"); // non può esistere, altrimenti ci sarebbero soluzioni multiple
 		return;
 		}
-		sol = cella[0].toString();
+		sol = cella[0].toString(); 
 		fissaCella(sl,sol);
 		//crea e seleziona una soluzione vuota
 		const opt = document.createElement("option");
@@ -397,6 +411,20 @@ function sudoku(){
 	document.getElementsByClassName("semaforo")[0].classList.add("semaforo-verde");
 	caricaSoluzione(doku, soluzioni[0]);
 	pconsole("Trovata la soluzione");
+}
+
+function mostraSoluzione(){
+	if (soluzioni.length === 1){
+		let x = document.getElementsByClassName("numero");
+		for (el of x){
+			pconsole(el.length);
+			// leggi il  da matrice s0
+			fissaCella(el, soluzioni[0][el.r][el.c]);
+		}
+	}
+	else{
+		pconsole("Soluzione non presente");
+	}
 }
 
 creaTabellone();
